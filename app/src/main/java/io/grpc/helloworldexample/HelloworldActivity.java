@@ -42,15 +42,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.concurrent.TimeUnit;
+
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.examples.helloworld.nano.GreeterGrpc;
-import io.grpc.examples.helloworld.nano.HeadRequest;
 import io.grpc.examples.helloworld.nano.HelloReply;
 import io.grpc.examples.helloworld.nano.HelloRequest;
-
-import java.io.File;
-import java.util.concurrent.TimeUnit;
 
 public class HelloworldActivity extends ActionBarActivity {
     private Button mSendButton;
@@ -68,6 +66,10 @@ public class HelloworldActivity extends ActionBarActivity {
         mPortEdit = (EditText) findViewById(R.id.port_edit_text);
         mMessageEdit = (EditText) findViewById(R.id.message_edit_text);
         mResultText = (TextView) findViewById(R.id.grpc_response_text);
+
+        mHostEdit.setText("192.168.5.170");
+        mPortEdit.setText("50051");
+        mMessageEdit.setText("国标");
     }
 
     public void sendMessage(View view) {
@@ -100,19 +102,13 @@ public class HelloworldActivity extends ActionBarActivity {
             return reply.message;
         }
 
-        private void uploadhead(){
-            HeadRequest headRequest = new HeadRequest();
-            File headFile = new File("test");
-
-
-        }
 
         @Override
         protected String doInBackground(Void... nothing) {
             try {
                 mChannel = ManagedChannelBuilder.forAddress(mHost, mPort)
-                    .usePlaintext(true)
-                    .build();
+                        .usePlaintext(true)
+                        .build();
                 return sayHello(mChannel);
             } catch (Exception e) {
                 return "Failed... : " + e.getMessage();

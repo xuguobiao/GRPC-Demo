@@ -47,13 +47,6 @@ message HelloRequest {
   string name = 1;
 }
 
-// The request message containing the user's head image.
-message HeadRequest {
-   int64 offset = 1;
-   bytes data = 2;
-}
-
-
 
 // The response message containing the greetings
 message HelloReply {
