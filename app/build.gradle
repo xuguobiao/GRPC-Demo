@@ -12,7 +12,7 @@ android {
     }
     defaultConfig {
         applicationId "io.grpc.android.helloworldexample"
-        minSdkVersion 9
+        minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -52,10 +52,12 @@ protobuf {
                 grpc {
                     // Options added to --grpc_out
                     option 'nano'
+                    outputSubDir = 'grpcjava'
                 }
             }
         }
     }
+    generatedFilesBaseDir = "$projectDir/src/generated"
 }
 dependencies {
 
