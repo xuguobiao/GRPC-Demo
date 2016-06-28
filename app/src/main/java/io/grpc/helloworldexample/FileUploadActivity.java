@@ -24,6 +24,9 @@ import io.grpc.kido.fileuploader.nano.FileRequest;
 import io.grpc.kido.fileuploader.nano.UploaderGrpc;
 import io.grpc.stub.StreamObserver;
 
+/**
+ * 该类只是简单的演示，未必能work
+ */
 public class FileUploadActivity extends Activity implements View.OnClickListener {
 
     private String mHost = "";

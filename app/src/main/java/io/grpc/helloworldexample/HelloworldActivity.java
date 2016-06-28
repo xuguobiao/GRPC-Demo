@@ -32,6 +32,7 @@
 package io.grpc.helloworldexample;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -42,10 +43,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.concurrent.TimeUnit;
-
 import io.grpc.ManagedChannel;
-import io.grpc.ManagedChannelBuilder;
 import io.grpc.examples.helloworld.nano.GreeterGrpc;
 import io.grpc.examples.helloworld.nano.HelloReply;
 import io.grpc.examples.helloworld.nano.HelloRequest;
@@ -69,7 +67,21 @@ public class HelloworldActivity extends ActionBarActivity {
 
         mHostEdit.setText("192.168.5.170");
         mPortEdit.setText("50051");
-        mMessageEdit.setText("国标");
+        mMessageEdit.setText("你好我是Kido");
+
+        HelloReply reply = new HelloReply();
+        reply.message = "测试reply";
+
+//        Intent intent = new Intent(this, FileUploadActivity.class);
+//        intent.putExtra("test", HelloReply.toByteArray(reply));
+//
+//        HelloReply reply1 = null;
+//        try {
+//            reply1 = HelloReply.parseFrom(getIntent().getExtras().getByteArray("test"));
+//        } catch (Exception e) {
+//
+//        }
+
     }
 
     public void sendMessage(View view) {
@@ -106,9 +118,10 @@ public class HelloworldActivity extends ActionBarActivity {
         @Override
         protected String doInBackground(Void... nothing) {
             try {
-                mChannel = ManagedChannelBuilder.forAddress(mHost, mPort)
-                        .usePlaintext(true)
-                        .build();
+//                mChannel = ManagedChannelBuilder.forAddress(mHost, mPort)
+//                        .usePlaintext(true)
+//                        .build();
+                mChannel = TesterOkHttpChannelBuilder.build(mHost, mPort, "foo.test.google.fr", true, getResources().openRawResource(R.raw.ca), null);
                 return sayHello(mChannel);
             } catch (Exception e) {
                 return "Failed... : " + e.getMessage();
@@ -117,11 +130,7 @@ public class HelloworldActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            try {
-                mChannel.shutdown().awaitTermination(1, TimeUnit.SECONDS);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            mChannel.shutdown();
             mResultText.setText(result);
             mSendButton.setEnabled(true);
         }
